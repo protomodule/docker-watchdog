@@ -1,4 +1,7 @@
 # Docker watchdog for Slack
+
+[![🐳 Docker build](https://github.com/protomodule/docker-watchdog/actions/workflows/dockerhub.yml/badge.svg)](https://github.com/protomodule/docker-watchdog/actions)
+
 Sends notifications whenever a container starts or stops
 
 ## 🐳 Run
