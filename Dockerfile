@@ -2,6 +2,8 @@
 FROM node:18-alpine as builder
 LABEL maintainer="Lukas Korl <hello@lukaskorl.com>"
 
+RUN apk add bash && \
+    yarn global add node-prune
 WORKDIR /usr/src/app
 COPY package.json \
      tsconfig.json \
@@ -12,7 +14,8 @@ RUN yarn install --frozen-lockfile
 COPY ./src ./src
 RUN yarn build && \
     rm -rf node_modules && \
-    yarn install --production
+    yarn install --production && \
+    node-prune
 
 # ---- 2. release stage ----
 FROM node:18-alpine
