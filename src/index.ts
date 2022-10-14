@@ -4,6 +4,7 @@ import { WebClient } from "@slack/web-api"
 const slack = new WebClient(process.env.SLACK_TOKEN)
 const slackChannel = process.env.SLACK_CHANNEL || ""
 const environment = process.env.ENVIRONMENT
+const application = process.env.APPLICATION
 var enabled = false
 
 const delay = <T>(ms: number, result?: T) => new Promise(resolve => setTimeout(() => resolve(result), ms))
@@ -18,7 +19,7 @@ const notify = async (channel: string, icon_emoji: string, text: string, message
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": message
+            "text": `${application ? `_${application}_: ` : ""} ${message}`.trim()
           }
         },
         {
@@ -31,9 +32,17 @@ const notify = async (channel: string, icon_emoji: string, text: string, message
             },
             {
               "type": "mrkdwn",
-              "text": `Image *${image}*${environment ? `\t\t\t\t\Environment *${environment}*` : ""}${uptime ? `\t\t\t\t\tUptime *${uptime}*` : ""}`
-            }
-          ]
+              "text": `Image *${image}*`
+            },
+            (environment ? {
+              "type": "mrkdwn",
+              "text": `Environment *${environment}*`
+            } : null),
+            (uptime ? {
+              "type": "mrkdwn",
+              "text": `Uptime *${uptime}*`
+            } : null),
+          ].filter(element => !!element)
         }
       ],
       channel

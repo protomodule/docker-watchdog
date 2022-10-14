@@ -22,7 +22,8 @@ docker run --name watchdog \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -e SLACK_CHANNEL='#general' \
   -e SLACK_TOKEN='xoxb-***' \
-  -e ENVIRONMENT='Production' \
+  -e APPLICATION='testing' \
+  -e ENVIRONMENT='Playground' \
   protomodule/docker-watchdog
 ```
 
