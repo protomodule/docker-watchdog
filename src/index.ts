@@ -64,10 +64,16 @@ const down = (name: string, image: string, uptime: string) => {
 
 monitor({
   onMonitorStarted: async (monitor?, docker?) => {
-    console.log(`🚀  Monitoring starting`)
+    console.log(`🚀  Monitoring starting ...`)
     await delay(parseInt(process.env.WARUMUP) || 1000)
-    console.log(`🚦  Reporting now enabled in channel <${slackChannel}>`)
-    enabled = true
+
+    if (slackChannel || slackChannel != "") {
+      console.log(`🚦  Reporting now enabled in channel <${slackChannel}>`)
+      enabled = true
+    }
+    else {
+      console.log(`✋  Reporting is disabled because no Slack channel is configured`)
+    }
   },
   onMonitorStopped: (monitor?, docker?) => { 
     console.log(`🛑  Monitoring stopped`)
